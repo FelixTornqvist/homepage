@@ -1,0 +1,24 @@
+
+header {
+	/*background: dodgerblue;*/
+	background: rgba(53,59,255,1.0);
+	color: white;
+	box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+	padding: 10px;
+	padding-left: 15px;
+	margin-bottom: 10px;
+}
+
+header > h1 {
+	margin: 0px;
+}
+
+.card {
+	background: white;
+	border-radius: 20px;
+	width: 250px;
+	height: 300px;
+	padding: 20px;
+	margin: 20px;
+	box-shadow: 0 10px 80px rgba(0,0,0,0.1);
+}
