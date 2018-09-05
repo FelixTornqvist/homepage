@@ -1,9 +1,13 @@
+html, body {
+	background-image: linear-gradient(to top right, #f0ffff, #fff0f0);
+	height: 100%;
+	margin: 0;
+}
 
 header {
-	/*background: dodgerblue;*/
-	background: rgba(53,59,255,1.0);
-	color: white;
-	box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+	background: rgba(255,255,255,0.5);
+	color: black;
+	box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 	padding: 10px;
 	padding-left: 15px;
 	margin-bottom: 10px;
@@ -13,12 +17,31 @@ header > h1 {
 	margin: 0px;
 }
 
+.card-holder {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
 .card {
 	background: white;
 	border-radius: 20px;
+	overflow: hidden;
 	width: 250px;
 	height: 300px;
-	padding: 20px;
 	margin: 20px;
-	box-shadow: 0 10px 80px rgba(0,0,0,0.1);
+	box-shadow: 0 10px 80px rgba(0,0,0,0.2);
+}
+
+.card-image {
+	height: 50%;
+	background: #222 url(logo.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.card-text {
+	height: 50%;
+	padding: 10px;
 }
