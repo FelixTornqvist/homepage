@@ -1,6 +1,6 @@
 html, body {
 	background-image: linear-gradient(to top right, #f0ffff, #fff0f0);
-	height: 100%;
+	height: auto;
 	margin: 0;
 }
 
@@ -13,6 +13,7 @@ header {
 	margin-bottom: 10px;
 	position: sticky;
 	top: 0;
+	z-index: 1;
 }
 
 header > h1 {
@@ -33,6 +34,12 @@ header > h1 {
 	height: 300px;
 	margin: 20px;
 	box-shadow: 0 10px 80px rgba(0,0,0,0.2);
+	transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+	transform: scale(1.05,1.05);
+	box-shadow: 0 40px 80px rgba(0,0,0,0.3);
 }
 
 .card-image {
