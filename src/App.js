@@ -4,7 +4,6 @@ import Card from './Card.js';
 import './App.css';
 
 class App extends Component {
-
 	renderCard(image, text) {
 		return (<Card image={image} text={text}/>);
 	}
