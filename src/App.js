@@ -5,7 +5,7 @@ import './App.css';
 
 class App extends Component {
 	renderCard(image, text) {
-		return (<Card image={image} text={text}/>);
+		return (<div className="card-sleeve" > <Card image={image} text={text}/> </div>);
 	}
 
 	render() {
@@ -17,7 +17,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header/>
-				<div className="card-holder">
+				<div className="card-board">
 					{elements}
 				</div>
 			</div>
