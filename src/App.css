@@ -39,7 +39,7 @@ header > h1 {
 	border-radius: 20px;
 	overflow: hidden;
 	box-shadow: 0 10px 80px rgba(0,0,0,0.2);
-	transition: all 0.3s;
+	/*transition: all 0.3s;*/
 	z-index: 2;
 }
 
@@ -49,11 +49,26 @@ header > h1 {
 }
 
 .card-expanded {
-	animation-name: expand;
+	/*animation-name: expand;
 	animation-duration: 0.3s;
 	animation-fill-mode: forwards;
+*/
+
+	width: 80%;
+	height: 85%;
+	margin-bottom: 0;
+	margin-left: 10%;
+	margin-right: 10%;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	box-shadow: 0 0 150px rgba(0,0,0,0.9);
 }
 
+/*
 .card-shrunken {
 	animation-name: expand;
 	animation-duration: 0.3s;
@@ -77,7 +92,7 @@ header > h1 {
 		box-shadow: 0 0 150px rgba(0,0,0,0.9);
 	}
 }
-
+*/
 
 .card-image {
 	height: 50%;
