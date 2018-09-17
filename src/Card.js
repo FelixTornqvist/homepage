@@ -21,6 +21,7 @@ class Card extends Component {
 					let cardRect = card.getBoundingClientRect();
 					state = {
 						start : time,
+						lastTick : time + 16,
 						init : {
 							x : cardRect.x,
 							y : window.innerHeight - cardRect.bottom,
@@ -51,9 +52,9 @@ class Card extends Component {
 							rShadow : 150,
 							aShadow : 0.5,
 						}
-					}
+					};
 
-					state.curr.xVel = state.curr.x > state.goal.x? 25 : -25;
+					state.curr.xVel = state.curr.x > state.goal.x? 2 : -2;
 					state.goal.x -= state.goal.w / 2;
 
 					card.style.position = "fixed";
@@ -64,8 +65,12 @@ class Card extends Component {
 					card.style.transition = "none";
 				}
 
-				let accelPow = 3;
-				let fric = 0.92;
+				let elapsedTime = time - state.start;
+				let timeDiff = (time - state.lastTick);
+				state.lastTick = time;
+
+				let accelPow = 0.01;
+				let fric = 0.066;
 
 				let currDistX = state.goal.x - state.curr.x;
 				let currDistY = state.goal.y - state.curr.y;
@@ -79,25 +84,28 @@ class Card extends Component {
 				state.curr.xAcc = xDir * accelPow;
 				state.curr.yAcc = yDir * accelPow;
 
-				state.curr.xVel += state.curr.xAcc;
-				state.curr.xVel*= fric;
-				state.curr.yVel += state.curr.yAcc;
-				state.curr.yVel*= fric;
+//				console.log("timediff" + timeDiff);
+//				//console.log("fricc" + fric * timeDiff);
+//				console.log("addXvel" + state.curr.xAcc * timeDiff);
+//				console.log("x" + state.curr.xVel);
+				state.curr.xVel += state.curr.xAcc * timeDiff;
+				state.curr.xVel /= fric * timeDiff;
+				state.curr.yVel += state.curr.yAcc * timeDiff;
+				state.curr.yVel /= fric * timeDiff;
 
-				state.curr.x += state.curr.xVel;
-				state.curr.y += state.curr.yVel;
+				state.curr.x += state.curr.xVel * timeDiff;
+				state.curr.y += state.curr.yVel * timeDiff;
 
 				card.style.marginLeft = state.curr.x + "px";
 				card.style.marginBottom = state.curr.y + "px";
 
-				let elapsedTime = time - state.start;
-				if (elapsedTime <= 500) {
-					state.curr.h = ((elapsedTime / 500) * (state.goal.h - state.init.h)) + state.init.h;
-					state.curr.w = ((elapsedTime / 500) * (state.goal.w - state.init.w)) + state.init.w;
-					//state.curr.w = (elapsedTime / 500 * state.goal.w);
-					state.curr.yShadow = (elapsedTime / 500 * state.goal.yShadow);
-					state.curr.rShadow = (elapsedTime / 500 * state.goal.rShadow);
-					state.curr.aShadow = (elapsedTime / 500 * state.goal.aShadow);
+				let growtime = 700;
+				if (elapsedTime <= growtime) {
+					state.curr.h = ((elapsedTime / growtime) * (state.goal.h - state.init.h)) + state.init.h;
+					state.curr.w = ((elapsedTime / growtime) * (state.goal.w - state.init.w)) + state.init.w;
+					state.curr.yShadow = (elapsedTime / growtime * state.goal.yShadow);
+					state.curr.rShadow = (elapsedTime / growtime * state.goal.rShadow);
+					state.curr.aShadow = (elapsedTime / growtime * state.goal.aShadow);
 				}
 
 				card.style.height = state.curr.h + "px";
