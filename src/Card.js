@@ -64,13 +64,14 @@ class Card extends Component {
 					card.style.transition = "none";
 				}
 
-				let accelPow = 2;
-				let fric = 0.9;
+				let accelPow = 3;
+				let fric = 0.92;
 
 				let currDistX = state.goal.x - state.curr.x;
 				let currDistY = state.goal.y - state.curr.y;
-				let xDir = currDistX > 0? 1 : -1;
-				let yDir = currDistY > 0? 1 : -1;
+				let currDist = Math.sqrt(currDistX * currDistX + currDistY * currDistY); 
+				let xDir = currDistX / currDist;
+				let yDir = currDistY / currDist;
 
 				currDistX = Math.abs(currDistX);
 				currDistY = Math.abs(currDistY);
