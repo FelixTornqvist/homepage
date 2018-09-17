@@ -49,7 +49,7 @@ class Card extends Component {
 							h : window.innerHeight * 0.85,
 							yShadow : 0,
 							rShadow : 150,
-							aShadow : 0.9,
+							aShadow : 0.5,
 						}
 					}
 
@@ -60,8 +60,8 @@ class Card extends Component {
 					card.style.left = 0;
 					card.style.right = 0;
 					card.style.bottom = 0;
-					//card.style.top = 0;
 					card.style.transform = "none";
+					card.style.transition = "none";
 				}
 
 				let accelPow = 2;
@@ -101,13 +101,13 @@ class Card extends Component {
 
 				card.style.height = state.curr.h + "px";
 				card.style.width = state.curr.w + "px";
-				card.style.boxShadow = "0 "+state.curr.yShadow+"px "+state.curr.rShadow+
-					"px rgba(0,0,0,"+state.curr.aShadow+")";
+				card.style.boxShadow = "0 " + state.curr.yShadow + "px " + state.curr.rShadow 
+					+ "px rgba(0,0,0," + state.curr.aShadow + ")";
 
 				if (elapsedTime > 3000) {
 					this.setState({expanded: true});
 					card.style = null;
-				} else if (currDistX > 2 || currDistY > 2 || state.curr.xVel > 10 || state.curr.yVel > 10)
+				} else if (currDistX > 10 || currDistY > 10 || state.curr.xVel > 10 || state.curr.yVel > 10)
 					window.requestAnimationFrame((time) => 
 						animateOpen(time, state));
 				else {
