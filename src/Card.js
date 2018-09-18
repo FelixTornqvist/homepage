@@ -22,6 +22,8 @@ class Card extends Component {
 					state = {
 						start : time,
 						lastTick : time + 16,
+						startDist : 0,
+
 						init : {
 							x : cardRect.x,
 							y : window.innerHeight - cardRect.bottom,
@@ -54,8 +56,11 @@ class Card extends Component {
 						}
 					};
 
-					state.curr.xVel = state.curr.x > state.goal.x? 2 : -2;
 					state.goal.x -= state.goal.w / 2;
+
+					let currDistX = state.goal.x - state.curr.x;
+					let currDistY = state.goal.y - state.curr.y;
+					state.startDist = Math.sqrt(currDistX * currDistX + currDistY * currDistY); 
 
 					card.style.position = "fixed";
 					card.style.left = 0;
@@ -69,8 +74,8 @@ class Card extends Component {
 				let timeDiff = (time - state.lastTick);
 				state.lastTick = time;
 
-				let accelPow = 0.01;
-				let fric = 0.066;
+				let accelPow = 0.02 * (state.startDist / 500);
+				let fric = 0.075;
 
 				let currDistX = state.goal.x - state.curr.x;
 				let currDistY = state.goal.y - state.curr.y;
@@ -84,10 +89,6 @@ class Card extends Component {
 				state.curr.xAcc = xDir * accelPow;
 				state.curr.yAcc = yDir * accelPow;
 
-//				console.log("timediff" + timeDiff);
-//				//console.log("fricc" + fric * timeDiff);
-//				console.log("addXvel" + state.curr.xAcc * timeDiff);
-//				console.log("x" + state.curr.xVel);
 				state.curr.xVel += state.curr.xAcc * timeDiff;
 				state.curr.xVel /= fric * timeDiff;
 				state.curr.yVel += state.curr.yAcc * timeDiff;
@@ -99,14 +100,17 @@ class Card extends Component {
 				card.style.marginLeft = state.curr.x + "px";
 				card.style.marginBottom = state.curr.y + "px";
 
-				let growtime = 700;
-				if (elapsedTime <= growtime) {
-					state.curr.h = ((elapsedTime / growtime) * (state.goal.h - state.init.h)) + state.init.h;
-					state.curr.w = ((elapsedTime / growtime) * (state.goal.w - state.init.w)) + state.init.w;
-					state.curr.yShadow = (elapsedTime / growtime * state.goal.yShadow);
-					state.curr.rShadow = (elapsedTime / growtime * state.goal.rShadow);
-					state.curr.aShadow = (elapsedTime / growtime * state.goal.aShadow);
-				}
+				let distDiff = state.startDist - currDist;
+				let progress = distDiff / state.startDist;
+				let growCalc = function(init, goal, x) {
+					return x * (goal - init) + init;
+				};
+
+				state.curr.w = growCalc(state.init.w, state.goal.w, progress);
+				state.curr.h = growCalc(state.init.h, state.goal.h, progress);
+				state.curr.yShadow = growCalc(state.init.yShadow, state.goal.yShadow, progress);
+				state.curr.rShadow = growCalc(state.init.rShadow, state.goal.rShadow, progress);
+				state.curr.aShadow = growCalc(state.init.aShadow, state.goal.aShadow, progress);
 
 				card.style.height = state.curr.h + "px";
 				card.style.width = state.curr.w + "px";
@@ -126,14 +130,6 @@ class Card extends Component {
 			};
 
 			window.requestAnimationFrame((time) => animateOpen(time, null));
-/*			this.cardDivFixedPos = {
-				position: 'fixed',
-				left: '0px',
-				right: '0px',
-				marginLeft: tmp.x + 'px',
-				bottom: (window.innerHeight - tmp.bottom) + 'px',
-			}*/
-
 		}
 	}
 
@@ -152,13 +148,8 @@ class Card extends Component {
 		};
 
 		var cardClasses = "card";
-		if (this.state.expanded != null) {
-			if (this.state.expanded == true) {
-				cardClasses += " card-expanded"
-			} else {
-				cardClasses += " card-shrunken";
-				setTimeout( () => this.setState({expanded: null}), 300); 
-			}
+		if (this.state.expanded === true) {
+			cardClasses += " card-expanded"
 		}
 
 		return (
