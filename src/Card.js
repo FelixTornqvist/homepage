@@ -10,7 +10,6 @@ class Card extends Component {
 		};
 		this.cardDiv = React.createRef();
 		this.cardSleeveDiv = React.createRef();
-		this.cardDivFixedPos = {};
 	}
 
 	animate(time, state) {
@@ -69,14 +68,16 @@ class Card extends Component {
 			+ "px rgba(0,0,0," + state.curr.aShadow + ")";
 
 		if (elapsedTime > 3000) {
-			this.setState({expanded: state.expanding});
 			card.style = null;
+			this.setState({expanded: state.expanding});
 		} else if (currDistX > 10 || currDistY > 10 || state.curr.xVel > 10 || state.curr.yVel > 10) {
 			window.requestAnimationFrame((time) => 
 				this.animate(time, state));
 		} else {
-			this.setState({expanded: state.expanding});
 			card.style = null;
+			if (!state.expanding)
+				card.style.transition = "none";
+			this.setState({expanded: state.expanding});
 		}
 	}
 
@@ -166,19 +167,22 @@ class Card extends Component {
 	}
 
 	render() {
-		var imageStyle = {
+		let imageStyle = {
 			backgroundImage: "url(" + this.state.image + ")",
 		};
 
-		var cardClasses = "card";
+		let cardClasses = "card";
 		if (this.state.expanded === true) {
 			cardClasses += " card-expanded"
 		}
 
+		if (this.cardDiv.current != null)
+			setTimeout( () => this.cardDiv.current.style = null, 0);
+
 		return (
 			<div className="card-sleeve" ref={this.cardSleeveDiv} > 
 				<div className={cardClasses} onClick={() => this.handleOpen()} 
-				style={this.cardDivFixedPos} ref={this.cardDiv} >
+				ref={this.cardDiv} >
 					<div style={imageStyle} className="card-image">
 						<button onClick={() => this.handleClose()} >X</button>
 					</div>
