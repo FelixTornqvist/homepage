@@ -5,7 +5,7 @@ import './App.css';
 
 class App extends Component {
 	renderCard(image, text) {
-		return (<div className="card-sleeve" > <Card image={image} text={text}/> </div>);
+		return (<Card image={image} text={text}/>);
 	}
 
 	render() {
