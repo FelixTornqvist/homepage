@@ -5,6 +5,7 @@ class Card extends Component {
 		super(props);
 		this.state = {
 			image: props.image,
+			title: props.title,
 			text: props.text,
 			expanded: null,
 		};
@@ -187,7 +188,7 @@ class Card extends Component {
 						<button onClick={() => this.handleClose()} >X</button>
 					</div>
 					<div className="card-text">
-						<b>{this.state.image}</b>
+						<b>{this.state.title}</b>
 						<br/>
 						{this.state.text}
 					</div>
